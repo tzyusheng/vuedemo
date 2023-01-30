@@ -1,19 +1,9 @@
+/* eslint-disable prettier/prettier */
 const { defineConfig } = require("@vue/cli-service");
 const path = require("path");
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: "./",
-  // css: {
-  //   loaderOptions: {
-  //     less: {
-  //       // http://lesscss.org/usage/#less-options-strict-units `Global Variables`
-  //       // `primary` is global variables fields name
-  //       globalVars: {
-  //         primary: "#fff",
-  //       },
-  //     },
-  //   },
-  // },
+  
   pluginOptions: {
     "style-resources-loader": {
       preProcessor: "less",
@@ -21,4 +11,10 @@ module.exports = defineConfig({
       // patterns: [],
     },
   },
+
+  
+  publicPath: `./`,
+  outputDir:"dist",
+  assetsDir:'static',
+  indexPath:'index.html'
 });

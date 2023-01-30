@@ -18,7 +18,10 @@
             <span>技能笔记</span>
           </router-link>
         </li>
-        <li class="hover-color"><router-link :to="{ path: '/about', query: { id: 2 } }">文章</router-link></li>
+        <li class="hover-color"><router-link :to="{ path: '/about', query: { id: 2 } }">
+            <SvgIcon iconName="keji" />
+            <span>黑科技</span>
+          </router-link></li>
         <li class="hover-color">
           <router-link :to="{ path: '/about', query: { id: 3 } }">
             <SvgIcon iconName="shenghuo" />

@@ -1,7 +1,7 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
-    <div>评论页面
-        {{ id }}
+    <div>
+        {{ title }}页面
         <button @click="clickCount">点我</button>
         <!-- <ImgRotate url="logo.png" /> -->
     </div>
@@ -13,22 +13,25 @@
 
 import { defineProps } from "vue";
 import { useRoute, useRouter } from "vue-router";
-defineProps(['id'])
+defineProps(['title'])
 // import ImgRotate from "@/components/ImgRotate.vue";
 const router = useRouter()
 const route = useRoute()
 console.log(route.query);
 console.log(route.params);
+// console.log(title);
 
 const clickCount = () => {
-    // a.value++
-    router.push({
-        name: 'ceshi',
-        params: {
-            id: 27346,
-            text: 'yusheng'
-        }
+    console.log('1111');
 
-    })
+    // a.value++
+    // router.push({
+    //     name: 'ceshi',
+    //     params: {
+    //         id: 27346,
+    //         text: 'yusheng'
+    //     }
+
+    // })
 }
 </script>

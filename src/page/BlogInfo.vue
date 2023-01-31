@@ -1,12 +1,11 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
-    <div>{{ text }}
-        <p>{{ id }}</p>
+    <div>
+        博主个人信息
     </div>
 </template>
 <!-- eslint-disable prettier/prettier -->
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
-defineProps(['id', 'text'])
+
 </script>

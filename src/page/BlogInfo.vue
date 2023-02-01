@@ -1,7 +1,7 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
     <div>
-        博主个人信息
+        博主很懒暂无信息...
     </div>
 </template>
 <!-- eslint-disable prettier/prettier -->

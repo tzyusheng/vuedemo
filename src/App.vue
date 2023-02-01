@@ -15,6 +15,7 @@
       <div class="back-top" :class="{ 'back-top-show': backTopShow }" @click="backTop">
         <SvgIcon iconName="top" />
       </div>
+      <p>Copyright &copy; Yusheng Blog All Rights Reserved. 2023-02</p>
     </footer>
 
   </div>

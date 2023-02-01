@@ -4,16 +4,17 @@
     <div class="recommend-page">
         <div class="recommend-main">
             <div class="article-item">
-                <img src="" alt="">
+                <img src="https://ali.image.hellorf.com/images/2b1b196f7f557d854faa759b8b787617.jpeg?x-oss-process=image/format,webp"
+                    alt="">
                 <p>1212121</p>
             </div>
         </div>
         <div class="recommend-list">
             <ul>
-                <li v-for="item in articleList" :key="item">
+                <li v-for="item in articleList" :key="item.articleId">
                     <div class="article-item">
-                        <img src="" alt="">
-                        <p> {{ item }}</p>
+                        <img :src="item.articleImg" alt="">
+                        <p> {{ item.articleTitle }}</p>
                     </div>
                 </li>
             </ul>
@@ -22,7 +23,9 @@
 </template>
 <!-- eslint-disable prettier/prettier -->
 <script lang="ts" setup>
-const articleList = [2, 3, 4];
+const articleList = [{ articleTitle: 2, articleImg: 'https://img.zcool.cn/community/0243oxknsedtruact6y5th3838.jpeg', articleId: 1 },
+{ articleTitle: 3, articleImg: 'https://hellorfimg.zcool.cn/preview260/2108174996.jpg?x-oss-process=image/format,webp', articleId: 2 },
+{ articleTitle: 4, articleImg: 'https://hellorfimg.zcool.cn/preview260/759448675.jpg?x-oss-process=image/format,webp', articleId: 3 }];
 // return { articleList }
 </script>
 <!-- eslint-disable prettier/prettier -->
@@ -47,12 +50,15 @@ const articleList = [2, 3, 4];
             flex-direction: column;
             height: 100%;
 
+
             li {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                overflow: hidden;
                 flex: 1;
                 margin-top: 5px;
+                width: 100%;
 
                 &:first-child {
                     margin: 0;
@@ -71,7 +77,13 @@ const articleList = [2, 3, 4];
 
         img {
             width: 100%;
+            height: 100%;
             object-fit: cover;
+            transition: .6s;
+
+            &:hover {
+                transform: scale(1.1);
+            }
         }
 
         p {

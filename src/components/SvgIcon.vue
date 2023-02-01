@@ -3,7 +3,6 @@
     <svg class="icon" aria-hidden="true">
         <use :xlink:href="svgIconName"></use>
     </svg>
-
 </template>
 <!-- eslint-disable prettier/prettier -->
   

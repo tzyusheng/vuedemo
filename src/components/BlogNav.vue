@@ -55,20 +55,46 @@ interface menuType {
   title: string,
   iconName: string,
   pathName: string,
+  dataName?: string,
   queryState?: boolean | undefined
 }
 const menuList = [
   { title: '主页', iconName: 'zhuye', pathName: 'index', queryState: true },
-  { title: '技能笔记', iconName: 'biji', pathName: 'about', },
-  { title: '黑科技', iconName: 'keji', pathName: 'about', },
-  { title: '生活', iconName: 'shenghuo', pathName: 'about', },
+  { title: '技能笔记', iconName: 'biji', pathName: 'about', dataName: 'jnbj' },
+  { title: '黑科技', iconName: 'keji', pathName: 'about', dataName: 'hkj' },
+  { title: '生活', iconName: 'shenghuo', pathName: 'about', dataName: 'sh' },
   { title: '我的', iconName: 'me', pathName: 'bloginfo', queryState: true },
 ]
+
+const articleArrs: any =
+{
+  hkj:
+    [
+      { articleImg: 'https://n.sinaimg.cn/photo/transform/700/w1000h500/20230113/d5ac-7c3fa6e8ee8ca9660476fa0ed15c98a3.jpg', articleTitle: '图片', articleText: '好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片', articleInfo: { time: '2023-02-01' }, articleId: 1, articleType: '黑科技' },
+      { articleTitle: '黑科技', articleText: '好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片', articleInfo: { time: '2023-02-01' }, articleId: 2, articleType: '黑科技' },
+      { articleTitle: '黑科技', articleText: '好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片', articleInfo: { time: '2023-02-01' }, articleId: 3, articleType: '黑科技' },
+      { articleTitle: '黑科技', articleText: '好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片', articleInfo: { time: '2023-02-01' }, articleId: 4, articleType: '黑科技' },
+    ],
+  jnbj: [
+    { articleImg: 'https://n.sinaimg.cn/photo/transform/700/w1000h500/20230113/d5ac-7c3fa6e8ee8ca9660476fa0ed15c98a3.jpg', articleTitle: '图片', articleText: '好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片', articleInfo: { time: '2023-02-01' }, articleId: 1, articleType: 'vue' },
+    { articleTitle: '无图片', articleText: '好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片', articleInfo: { time: '2023-02-01' }, articleId: 2, articleType: 'vue' },
+    { articleTitle: '无图片', articleText: '好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片', articleInfo: { time: '2023-02-01' }, articleId: 3, articleType: 'vue' },
+    { articleTitle: '技能笔记', articleText: '好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片好看的图片', articleInfo: { time: '2023-02-01' }, articleId: 4, articleType: 'vue' },
+
+  ]
+}
 const toClick = (menuInfo: menuType) => {
   let routerObj: any = {
     name: menuInfo.pathName
   }
-  menuInfo.queryState || (routerObj.query = { title: menuInfo.title })
+  if (menuInfo.dataName) {
+    const articleArr = articleArrs[menuInfo.dataName] || []
+    if (!menuInfo.queryState) {
+      routerObj.query = {
+        title: menuInfo.title, articleArrs: JSON.stringify(articleArr)
+      }
+    }
+  }
 
 
   router.push(routerObj)
@@ -93,7 +119,7 @@ const toClick = (menuInfo: menuType) => {
         padding: 0 10px;
 
         span {
-          margin-left: 2px;
+          margin-left: 5px;
         }
 
         // span {

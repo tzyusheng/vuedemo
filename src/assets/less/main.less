@@ -1,11 +1,13 @@
 // out:false
 @blogHoverColor: rgb(228, 213, 188);
 @blogColor: rgb(42, 89, 167);
-@blogBg: rgba(255, 255, 255, 0.2);
+@blogBg: hsla(0, 0%, 100%, 0.2);
 html,
 body,
 ul,
-p {
+p,
+h2,
+h4 {
   margin: 0;
 }
 
@@ -26,30 +28,29 @@ ul {
       z-index: 999;
       width: 100%;
       background-color: @blogBg;
+      backdrop-filter: blur(5px);
       .hover-color {
         color: @blogColor;
         transition: 0.5s;
-        a {
-          color: @blogColor;
-          text-decoration: none;
-          &:hover {
-            color: @blogHoverColor;
-          }
+
+        &:hover {
+          color: @blogHoverColor;
         }
       }
     }
   }
   main {
-    width: 1200px;
+    width: 1100px;
     margin: 0 auto;
     min-height: 500px;
+    padding-bottom: 20px;
     .recommend {
       height: 400px;
     }
     .newest {
       margin-top: 5px;
-      height: 600px;
-      background-color: orange;
+      // height: 600px;
+      // background-color: orange;
     }
   }
   footer {

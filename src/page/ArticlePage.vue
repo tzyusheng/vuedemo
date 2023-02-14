@@ -10,10 +10,23 @@
 
 <script setup lang="ts">
 
-import { defineProps } from "vue";
+import { getArticleData } from "@/api/api";
+import { defineProps, ref, watchEffect } from "vue";
 // import { useRoute, useRouter } from "vue-router";
 import ArticleItem from '../components/ArticleItem.vue'
-defineProps(['title', 'articleArrs'])
+const props = defineProps(['title', 'articleType'])
+let articleArrs: any = ref()
+// console.log(props);
+
+
+const getArticleInfo = async (articleType: number) => {
+    const res = await getArticleData({ articleType })
+    return articleType === 0 ? res.data.slice(0, 10) : res.data
+
+}
+watchEffect(async () => {
+    articleArrs.value = await getArticleInfo(props.articleType)
+})
 </script>
 <!-- eslint-disable prettier/prettier -->
 

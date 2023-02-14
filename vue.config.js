@@ -2,8 +2,18 @@
 const { defineConfig } = require("@vue/cli-service");
 const path = require("path");
 module.exports = defineConfig({
+  devServer: {
+    host: '0.0.0.0',
+    // https:true,
+    port: 8080,
+    client: {
+      webSocketURL: 'ws://0.0.0.0:8080/ws',
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+  },
   transpileDependencies: true,
-  
   pluginOptions: {
     "style-resources-loader": {
       preProcessor: "less",
@@ -11,10 +21,23 @@ module.exports = defineConfig({
       // patterns: [],
     },
   },
-
-  
   publicPath: `./`,
-  outputDir:"dist",
-  assetsDir:'static',
-  indexPath:'index.html'
+  outputDir: "dist",
+  assetsDir: "static",
+  indexPath: "index.html",
+  // configureWebpack:{
+  //   devServer:{
+  //     proxy:{
+  //       "/api":{
+  //         // target: "http://localhost",
+  //         target: " https://mdz.mynatapp.cc",
+  //         changeOrigin:true,
+  //         ws:true,
+  //         pathRewrite:{
+  //           "^/api":"/"
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 });

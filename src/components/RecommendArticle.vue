@@ -3,16 +3,15 @@
 <template>
     <div class="recommend-page">
         <div class="recommend-main">
-            <div class="article-item">
-                <img src="https://ali.image.hellorf.com/images/2b1b196f7f557d854faa759b8b787617.jpeg?x-oss-process=image/format,webp"
-                    alt="">
-                <p>1212121</p>
+            <div class="article-item" @click="toArticle(articleListOne?.articleId)">
+                <img :src="articleListOne?.articleImg" alt="">
+                <p>{{ articleListOne?.articleTitle }}</p>
             </div>
         </div>
         <div class="recommend-list">
             <ul>
                 <li v-for="item in articleList" :key="item.articleId">
-                    <div class="article-item">
+                    <div class="article-item" @click="toArticle(item?.articleId)">
                         <img :src="item.articleImg" alt="">
                         <p> {{ item.articleTitle }}</p>
                     </div>
@@ -22,11 +21,25 @@
     </div>
 </template>
 <!-- eslint-disable prettier/prettier -->
-<script lang="ts" setup>
-const articleList = [{ articleTitle: 2, articleImg: 'https://img.zcool.cn/community/0243oxknsedtruact6y5th3838.jpeg', articleId: 1 },
-{ articleTitle: 3, articleImg: 'https://hellorfimg.zcool.cn/preview260/2108174996.jpg?x-oss-process=image/format,webp', articleId: 2 },
-{ articleTitle: 4, articleImg: 'https://hellorfimg.zcool.cn/preview260/759448675.jpg?x-oss-process=image/format,webp', articleId: 3 }];
-// return { articleList }
+<script lang="ts" setup>import { selectRecommend } from '@/api/api';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const articleList = ref()
+const articleListOne = ref()
+onMounted(async () => {
+    articleList.value = await selectRecommend()
+    articleListOne.value = articleList.value[0]
+    articleList.value = articleList.value.slice(1, 4)
+})
+const router = useRouter()
+const toArticle = (id: number) => {
+    console.log(id);
+    router.push({
+        name: 'articledetails',
+        params: { id }
+    })
+}
 </script>
 <!-- eslint-disable prettier/prettier -->
 <style lang="less" scoped>

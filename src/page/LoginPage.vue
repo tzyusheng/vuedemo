@@ -20,11 +20,12 @@
 <!-- eslint-disable prettier/prettier -->
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
+import { getCurrentInstance, inject, onMounted, ref, watchEffect } from 'vue';
 import 'ant-design-vue/dist/antd.css';
-import { login } from '@/api/api';
+import { isSession, login } from '@/api/api';
 import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
+import { Item } from 'ant-design-vue/lib/menu';
 
 const userName = ref()
 const userPwd = ref()
@@ -33,12 +34,12 @@ const router = useRouter()
 watchEffect(() => {
     disabled.value = !(userName.value && userPwd.value)
 })
+const addBlogBackstagePath: any = inject("$addBlogBackstagePath");
 // onMounted(async () => {
+//     console.log(proxy.formatDate('2023-02-14T08:10:44.742Z'));
 
-//     const isLogin = await isSession()
-//     if (isLogin) {
-//         await addBlogBackstagePath()
-//     }
+
+
 // })
 const loginPost = async () => {
     if (userName.value && userPwd.value) {
@@ -48,44 +49,29 @@ const loginPost = async () => {
         // if (res.headers)
         if (res.data?.loginState) {
             message.success("登录成功")
-            await addBlogBackstagePath()
+            await addBlogBackstagePath(router)
         } else {
             message.error("账号或密码不正确")
-
         }
 
     }
 }
-const addBlogBackstagePath = async () => {
-    router.addRoute({
-        path: "/blog",
-        name: "blogbackstage",
-        component: () => import("../page/backstage/BlogBackstage.vue"),
-        props: true,
-        children: [
-            {
-                path: "/blog/newArticle",
-                name: "newArticle",
-                component: () => import("../page/backstage/NewArticle.vue"),
-            },
-            {
-                path: "/blog/delArticle",
-                name: "delArticle",
-                component: () => import("../page/backstage/DelArticle.vue"),
-            },
-            {
-                path: "/blog/userMange",
-                name: "userMange",
-                component: () => import("../page/backstage/UserMange.vue"),
-            },
-        ],
-    })
-    router.replace("/blog");
+// const routerObj = (obj: any) => {
+//     if (obj?.children) {
+//         const { children } = obj
+//         obj.children = children.map((item: any) => {
+//             console.log(item?.component);
+//             const url = item?.component
+//             item.component = () => import('../page/backstage/' + url + '.vue')
+//             return item
+//         })
+//     }
+//     const url = obj.component
+//     obj.component = () => import('../page/backstage/' + url + '.vue')
+//     return obj
+// }
 
-    // router.push({
-    //     name: 'blogbackstage'
-    // })
-}
+
 const clearContent = () => {
     userName.value = userPwd.value = ""
 }

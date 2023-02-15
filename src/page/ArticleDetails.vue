@@ -23,12 +23,13 @@
 <script setup lang="ts">
 
 import { getArticleData } from "@/api/api";
-import { defineProps, onMounted, ref } from "vue";
+import { defineProps, getCurrentInstance, inject, onMounted, ref } from "vue";
 import { Editor } from '@wangeditor/editor-for-vue'
 
 const props = defineProps(['id'])
 let articleArrs: any = ref({})
 const valueHtml = ref('<h1>hello</h1>')
+const formatDate: any = inject('$formatDate')
 onMounted(async () => {
     articleArrs.value = await getArticleDetails(props.id)
     valueHtml.value = articleArrs.value?.articleContext
@@ -38,28 +39,6 @@ const getArticleDetails = async (id: number) => {
     return res.data
 }
 
-const formatDate = (time: string, format = 'YY-MM-DD hh:mm:ss') => {
-    const date: any = new Date(time);
-
-    const year = date.getFullYear(),
-        month = date.getMonth() + 1,//月份是从0开始的
-        day = date.getDate(),
-        hour = date.getHours(),
-        min = date.getMinutes(),
-        sec = date.getSeconds();
-    var preArr = Array.apply(null, Array(10)).map(function (elem, index) {
-        return '0' + index;
-    });
-
-    const newTime = format.replace(/YY/g, year)
-        .replace(/MM/g, preArr[month] || month)
-        .replace(/DD/g, preArr[day] || day)
-        .replace(/hh/g, preArr[hour] || hour)
-        .replace(/mm/g, preArr[min] || min)
-        .replace(/ss/g, preArr[sec] || sec);
-
-    return newTime;
-}
 
 
 // const htmlText = createEditor({

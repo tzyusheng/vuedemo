@@ -19,33 +19,14 @@
 <script setup lang="ts">
 import { delArticle, selectBlogarticleAll } from '@/api/api';
 import { message } from 'ant-design-vue';
-import { onMounted, ref } from 'vue';
+import { getCurrentInstance, inject, onMounted, ref } from 'vue';
 
 
 const data = ref()
 
-const formatDate = (time: string, format = 'YY-MM-DD hh:mm:ss') => {
-    const date: any = new Date(time);
+const formatDate: any = inject('$formatDate')
 
-    const year = date.getFullYear(),
-        month = date.getMonth() + 1,//月份是从0开始的
-        day = date.getDate(),
-        hour = date.getHours(),
-        min = date.getMinutes(),
-        sec = date.getSeconds();
-    var preArr = Array.apply(null, Array(10)).map(function (elem, index) {
-        return '0' + index;
-    });
 
-    const newTime = format.replace(/YY/g, year)
-        .replace(/MM/g, preArr[month] || month)
-        .replace(/DD/g, preArr[day] || day)
-        .replace(/hh/g, preArr[hour] || hour)
-        .replace(/mm/g, preArr[min] || min)
-        .replace(/ss/g, preArr[sec] || sec);
-
-    return newTime;
-}
 const getData = async () => {
     const res: any = await selectBlogarticleAll()
     data.value = res.map((item: any) => {

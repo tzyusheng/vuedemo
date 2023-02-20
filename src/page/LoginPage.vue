@@ -1,6 +1,5 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
-
     <div class="login">
 
         <div class="login-form">
@@ -15,17 +14,17 @@
         </div>
 
 
-    </div>
+</div>
 </template>
 <!-- eslint-disable prettier/prettier -->
 
 <script setup lang="ts">
-import { getCurrentInstance, inject, onMounted, ref, watchEffect } from 'vue';
+
+import { inject, ref, watchEffect } from 'vue';
 import 'ant-design-vue/dist/antd.css';
-import { isSession, login } from '@/api/api';
+import { login } from '@/api/api';
 import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
-import { Item } from 'ant-design-vue/lib/menu';
 
 const userName = ref()
 const userPwd = ref()
@@ -35,12 +34,7 @@ watchEffect(() => {
     disabled.value = !(userName.value && userPwd.value)
 })
 const addBlogBackstagePath: any = inject("$addBlogBackstagePath");
-// onMounted(async () => {
-//     console.log(proxy.formatDate('2023-02-14T08:10:44.742Z'));
 
-
-
-// })
 const loginPost = async () => {
     if (userName.value && userPwd.value) {
         // alert(userName.value + userPwd.value)
@@ -56,21 +50,6 @@ const loginPost = async () => {
 
     }
 }
-// const routerObj = (obj: any) => {
-//     if (obj?.children) {
-//         const { children } = obj
-//         obj.children = children.map((item: any) => {
-//             console.log(item?.component);
-//             const url = item?.component
-//             item.component = () => import('../page/backstage/' + url + '.vue')
-//             return item
-//         })
-//     }
-//     const url = obj.component
-//     obj.component = () => import('../page/backstage/' + url + '.vue')
-//     return obj
-// }
-
 
 const clearContent = () => {
     userName.value = userPwd.value = ""

@@ -46,6 +46,11 @@ const list = [
             key: '1.2',
             title: '删除文章',
             name: 'delArticle',
+
+        }, {
+            key: '1.3',
+            title: '推荐文章',
+            name: 'recommendArticle',
         }]
     },
     {

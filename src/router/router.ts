@@ -1,6 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { isSession } from "@/api/api";
-import { inject } from "vue";
 import { addBlogBackstagePath } from "../utils/commonFun";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 
@@ -58,73 +56,13 @@ const router = createRouter({
     return { top: 0 };
   },
 });
-const addPath = async () => {
-  const isLogin: any = await isSession();
-  if (isLogin.status) {
-    // router.addRoute({
-    //   path: "/blog",
-    //   name: "blogbackstage",
-    //   component: () => import("../page/backstage/BlogBackstage.vue"),
-    //   props: true,
-    //   children: [
-    //     {
-    //       path: "/blog/newArticle",
-    //       name: "newArticle",
-    //       component: () => import("../page/backstage/NewArticle.vue"),
-    //     },
-    //     {
-    //       path: "/blog/delArticle",
-    //       name: "delArticle",
-    //       component: () => import("../page/backstage/DelArticle.vue"),
-    //     },
-    //     {
-    //       path: "/blog/userMange",
-    //       name: "userMange",
-    //       component: () => import("../page/backstage/UserMange.vue"),
-    //     },
-    //   ],
-    // });
-    // router.addRoute({
-    //   path: "/:pathMatch(.*)",
-    //   name: "*",
-    //   meta: { hidden: true },
-    //   redirect: "/404",
-    // });
-    console.log(isLogin.router);
-
-    console.log(JSON.parse(isLogin.router));
-  }
-
-  return isLogin.status;
-};
-
-// router.isReady().then((onSuccess) => {
-//   // if (true) {
-//   router.addRoute({
-//     path: "/blog",
-//     name: "blogbackstage",
-//     component: () => import("../page/backstage/BlogBackstage.vue"),
-//     props: true,
-//     children: [
-//       {
-//         path: "/blog/newArticle",
-//         name: "newArticle",
-//         component: () => import("../page/backstage/NewArticle.vue"),
-//       },
-//     ],
-//   });
-//   // }
-//   console.log(onSuccess);
-// });
 
 // 路由守卫
 router.beforeEach(async (to, from, next) => {
-  console.log();
+  // console.log(from.path);
+  // console.log(to.path);
 
-  if (
-    (to.path === "/blog" || to.path.startsWith("/blog/")) &&
-    from.path !== "/login"
-  ) {
+  if (to.path === "/blog" || to.path.startsWith("/blog/")) {
     if (to.matched.length === 0) {
       if (await addBlogBackstagePath(router)) {
         // 刷新页面第一次进入页面时，addRoute刚添加路由进去，但没有成功加载需要重进一次
@@ -133,6 +71,7 @@ router.beforeEach(async (to, from, next) => {
           replace: true, // 重进一次, 不保留重复历史
         });
       } else {
+        sessionStorage.setItem("routerPath", to.path);
         return next("/login");
       }
     }

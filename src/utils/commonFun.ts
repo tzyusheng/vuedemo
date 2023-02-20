@@ -30,7 +30,6 @@ const routerObj = (obj: any) => {
   if (obj?.children) {
     const { children } = obj;
     obj.children = children.map((item: any) => {
-      console.log(item?.component);
       const url = item?.component;
       item.component = () => import("../page/backstage/" + url + ".vue");
       return item;
@@ -45,7 +44,10 @@ const addBlogBackstagePath = async (router: Router) => {
   const routerJson: any = await isSession();
   if (routerJson.status) {
     await router.addRoute(routerObj(JSON.parse(routerJson.router)));
-    router.replace("/blog");
+    console.log(sessionStorage.getItem("routerPath"));
+    const routerPath = sessionStorage.getItem("routerPath");
+    sessionStorage.removeItem("routerPath");
+    router.replace(routerPath || "/blog");
     return true;
   }
   return false;

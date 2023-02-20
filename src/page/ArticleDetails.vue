@@ -13,8 +13,9 @@
         <!-- <p>
             {{ articleArrs?.articleText }}
         </p> -->
-        <!-- <Editor style="overflow-y: hidden;height: 100%;" :defaultConfig="editorConfig" v-model="valueHtml" /> -->
-        <div style="margin-top: 20px;" v-html="valueHtml"></div>
+        <Editor style="overflow-y: hidden;margin-top: 20px;min-height: 500px;" :defaultConfig="editorConfig"
+            v-model="valueHtml" />
+        <!-- <div style="margin-top: 20px;" v-html="valueHtml"></div> -->
     </div>
 
 </template>
@@ -23,8 +24,9 @@
 <script setup lang="ts">
 
 import { getArticleData } from "@/api/api";
-import { defineProps, getCurrentInstance, inject, onMounted, ref } from "vue";
+import { defineProps, inject, onMounted, ref } from "vue";
 import { Editor } from '@wangeditor/editor-for-vue'
+
 
 const props = defineProps(['id'])
 let articleArrs: any = ref({})

@@ -51,3 +51,7 @@ export const delArticle = (id: number) => {
   const requestText = "/delArticle";
   return http.delete(requestText, id);
 };
+export const setPriority = (priority: any) => {
+  const requestText = "/setPriority";
+  return http.post(requestText, { ...priority });
+};

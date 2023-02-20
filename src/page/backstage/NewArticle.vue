@@ -33,8 +33,6 @@
                 @change="handleUpload" :before-upload="beforeUpload">
                 <img v-if="imageUrl" :src="imageUrl" alt="avatar" style="width: 100%;" />
                 <div v-else>
-                    <loading-outlined v-if="loading"></loading-outlined>
-                    <plus-outlined v-else></plus-outlined>
                     <div class="ant-upload-text">Upload</div>
                 </div>
             </a-upload>
@@ -51,8 +49,6 @@
 <!-- eslint-disable prettier/prettier -->
 
 <script setup lang="ts">
-import '@wangeditor/editor/dist/css/style.css' // 引入 css
-
 import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 // 编辑器实例，必须用 shallowRef
@@ -119,6 +115,8 @@ const handleCreated = (editor: any) => {
 
 }
 const addArticle = async () => {
+    console.log(editorRef.value.getHtml());
+
     if (recommend.value) {
         if (!imageUrl.value) {
             message.warn('文章为推荐文章,文章图片不能为空')
@@ -145,6 +143,8 @@ const addArticle = async () => {
     }
 
     try {
+        console.log(data);
+
         await addAricle(data)
         message.success('文章发布成功')
     } catch (err: any) {

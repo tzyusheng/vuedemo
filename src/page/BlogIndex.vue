@@ -17,11 +17,15 @@
             </div>
             <p>Copyright &copy; Yusheng Blog All Rights Reserved. 2023-02</p>
         </footer>
-    </div>
+</div>
 </template>
 <!-- eslint-disable prettier/prettier -->
 
 <script setup lang="ts">
+
+
+
+
 import ImgRotate from "../components/ImgRotate.vue";
 import BlogNav from "../components/BlogNav.vue";
 import { onMounted, onUnmounted, ref } from "vue";
@@ -73,6 +77,17 @@ onMounted(() => {
 })
 onUnmounted(() => {
     window.removeEventListener('scroll', backTopShowfn)
+    console.log("退出页面");
+    Win?.L2Dwidget.init({
+        display: {
+            position: "right",
+            width: 0,
+            height: 0,
+            hOffset: 0,
+            vOffset: 0,
+        },
+    })
+
 
 })
 </script>

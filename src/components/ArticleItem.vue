@@ -19,12 +19,13 @@
       </div>
 
     </div>
-  </div>
+</div>
 </template>
 <!-- eslint-disable prettier/prettier -->
 
 <script lang="ts" setup>
-import { defineProps, getCurrentInstance, inject } from "vue";
+
+import { defineProps, inject } from "vue";
 import { useRouter } from 'vue-router'
 defineProps(['articleObj'])
 const router = useRouter()

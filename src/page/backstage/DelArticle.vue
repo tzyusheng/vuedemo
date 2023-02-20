@@ -1,31 +1,60 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
-    <a-table :data-source="data" style="padding: 0 20px;">
-        <a-table-column key="articleTitle" title="文章标题" data-index="articleTitle" />
+    <a-table :data-source="data" style="padding: 0 5px;" :scroll="{ y: 400 }" :columns="columns">
+        <!-- <a-table-column key="articleTitle" title="文章标题" data-index="articleTitle" />
         <a-table-column key="articleText" title="文章内容" data-index="articleText" />
         <a-table-column key="articleTime" title="发布时间" data-index="articleTime" />
-        <a-table-column key="recommend" title="推荐内容" data-index="recommend" />
-        <a-table-column key="action" title="操作">
-            <template #default="{ record }">
+        <a-table-column key="recommend" title="推荐内容" data-index="recommend" /> -->
+
+        <template v-slot:bodyCell="{ column, record }">
+            <template v-if="column.dataIndex === 'action'">
                 <span>
                     <a @click="delBlogArticle(record.articleId)">删除</a>
                 </span>
             </template>
-        </a-table-column>
+        </template>
+
     </a-table>
 </template>
 <!-- eslint-disable prettier/prettier -->
 
 <script setup lang="ts">
 import { delArticle, selectBlogarticleAll } from '@/api/api';
-import { message } from 'ant-design-vue';
-import { getCurrentInstance, inject, onMounted, ref } from 'vue';
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { message, Modal } from 'ant-design-vue';
+import { createVNode, inject, onMounted, ref } from 'vue';
 
 
 const data = ref()
-
 const formatDate: any = inject('$formatDate')
-
+const columns = [
+    {
+        title: '文章标题',
+        dataIndex: 'articleTitle',
+        width: 150,
+    },
+    {
+        title: '文章内容',
+        dataIndex: 'articleText',
+        width: 200,
+        ellipsis: true
+    },
+    {
+        title: '发布时间',
+        dataIndex: 'articleTime',
+        width: 150,
+    },
+    {
+        title: '推荐内容',
+        dataIndex: 'recommend',
+        width: 150,
+    },
+    {
+        title: '操作',
+        dataIndex: 'action',
+        width: 50,
+    },
+]
 
 const getData = async () => {
     const res: any = await selectBlogarticleAll()
@@ -37,30 +66,30 @@ const getData = async () => {
 }
 onMounted(() => {
     getData()
-    //     [
-    //     {
-    //         articleContext: "<p>大美人,青青来了</p><p style=\"text-align: center;\">美照<img src=\"https://mdz.mynatapp.cc/imgs/2023-02-14HISMH0LLRWUQ82525V9L7A.jpeg\" alt=\"\" data-href=\"\" style=\"width: 50%;\"></p><p style=\"text-align: center;\">太美了简直</p>",
-    //         articleImg: "https://mdz.mynatapp.cc/imgs/2023-02-14HISMH0LLRWUQ82525V9L3E.jpeg",
-    //         articleText: "大美人,青青来了\n美照\n太美了简直",
-    //         articleTime: "2023-02-14",
-    //         articleTitle: "青儿大美女,美到冒泡",
-    //         articleType: "青儿",
-    //         recommend: '是'
-    //     },
-    // ];
-
 })
 const delBlogArticle = async (id: number) => {
-    console.log('删除文章', id);
-    const res: any = await delArticle(id)
-    console.log(res);
-    if (res?.code == 1) {
-        message.success(res?.message)
-    } else {
-        message.error(res?.message)
-        return false
-    }
-    getData()
+    Modal.confirm({
+        title: '删除提示',
+        icon: createVNode(ExclamationCircleOutlined),
+        content: '确认要删除此文章?',
+        okText: '确定',
+        cancelText: '取消',
+        async onOk() {
+            try {
+                const res: any = await delArticle(id)
+                console.log(res);
+                if (res?.code == 1) {
+                    message.success(res?.message)
+                } else {
+                    message.error(res?.message)
+                    return false
+                }
+                getData()
+            } catch {
+                return console.log('Oops errors!');
+            }
+        }
+    })
 }
 </script>
 <!-- eslint-disable prettier/prettier -->

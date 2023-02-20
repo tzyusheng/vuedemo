@@ -90,7 +90,6 @@ import { ref } from 'vue';
 import 'ant-design-vue/dist/antd.css';
 import "@surely-vue/table/dist/index.css";
 import LeftNav from "../../components/backstage/LeftNav.vue"
-import { message } from 'ant-design-vue';
 import router from '@/router/router';
 import { exitLogin } from '@/api/api';
 

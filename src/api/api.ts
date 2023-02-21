@@ -55,3 +55,31 @@ export const setPriority = (priority: any) => {
   const requestText = "/setPriority";
   return http.post(requestText, { ...priority });
 };
+export const getUserAll = () => {
+  const requestText = "/selectUserAll";
+  return http.get(requestText);
+};
+
+export const upDataState = (id: number, State: boolean) => {
+  const requestText = "/upDataState";
+  return http.post(requestText, { id, State });
+};
+
+export const delUser = (id: number) => {
+  const requestText = "/delUser";
+  return http.delete(requestText, id);
+};
+
+export const addUser = (
+  userName: string,
+  userPwd: string,
+  Grade: number,
+  State?: boolean,
+) => {
+  const requestText = "/addUser";
+  return http.post(requestText, { userName, userPwd, Grade, State });
+};
+export const changePwd = (id: number, userPwd: string) => {
+  const requestText = "/changePwd";
+  return http.post(requestText, { id, userPwd });
+};

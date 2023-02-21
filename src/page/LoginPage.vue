@@ -14,7 +14,7 @@
         </div>
 
 
-</div>
+    </div>
 </template>
 <!-- eslint-disable prettier/prettier -->
 
@@ -45,7 +45,7 @@ const loginPost = async () => {
             message.success("登录成功")
             await addBlogBackstagePath(router)
         } else {
-            message.error("账号或密码不正确")
+            message.error(res.data?.message || "账号或密码不正确")
         }
 
     }

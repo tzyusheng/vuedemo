@@ -42,11 +42,6 @@ const routes: Array<RouteRecordRaw> = [
     name: "login",
     component: () => import("../page/LoginPage.vue"),
   },
-  // {
-  //   // hide: true,
-  //   path: "*",
-  //   component: () => import("../page/BlogIndex.vue"),
-  // },
 ];
 const router = createRouter({
   history: createWebHashHistory(),

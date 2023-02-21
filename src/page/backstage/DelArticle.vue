@@ -1,11 +1,6 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
     <a-table :data-source="data" style="padding: 0 5px;" :scroll="{ y: 400 }" :columns="columns">
-        <!-- <a-table-column key="articleTitle" title="文章标题" data-index="articleTitle" />
-        <a-table-column key="articleText" title="文章内容" data-index="articleText" />
-        <a-table-column key="articleTime" title="发布时间" data-index="articleTime" />
-        <a-table-column key="recommend" title="推荐内容" data-index="recommend" /> -->
-
         <template v-slot:bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'action'">
                 <span>

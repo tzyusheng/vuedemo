@@ -39,8 +39,7 @@
         </div>
     </div>
     <div style="border: 1px solid #ccc;margin-bottom: 20px;">
-        <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
-            :mode="mode" />
+        <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig" :mode="mode" />
         <Editor style="height: 300px; overflow-y: hidden;" :defaultConfig="editorConfig" :mode="mode"
             @onCreated="handleCreated" :readOnly="true" />
     </div>
@@ -72,7 +71,7 @@ const editorRef = shallowRef()
 const mode = "default"
 const articleTitle = ref();
 const articleType = ref()
-const blogArticleType = ref()
+const blogArticleType = ref(1)
 const blogArticleTypeLists = ref()
 const recommend = ref(false)
 const imageUrl = ref()
@@ -111,8 +110,14 @@ onBeforeUnmount(() => {
 
 const handleCreated = (editor: any) => {
     editorRef.value = editor // 记录 editor 实例，重要！
-    console.log(editor);
-
+}
+const clearData = () => {
+    articleTitle.value = ''
+    blogArticleType.value = 1
+    articleType.value = ''
+    editorRef.value.clear()
+    imageUrl.value = ''
+    recommend.value = false
 }
 const addArticle = async () => {
     console.log(editorRef.value.getHtml());
@@ -147,6 +152,7 @@ const addArticle = async () => {
 
         await addAricle(data)
         message.success('文章发布成功')
+        clearData()
     } catch (err: any) {
         message.error(err?.message)
     }
@@ -169,14 +175,8 @@ const handleUpload = async () => {
         message.success("图片上传成功")
     }
 
-
-    // You can use any AJAX library you like
-    // request('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
-    //     method: 'post',
-    //     data: formData,
-    // })
-
 };
+
 </script>
 <!-- eslint-disable prettier/prettier -->
 

@@ -1,8 +1,6 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
-    文章推荐管理
     <a-table :data-source="data" style="padding: 0 5px;" :scroll="{ y: 400 }" :columns="columns">
-
         <template v-slot:bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'action'">
                 <span>
@@ -18,7 +16,7 @@
         <a-select v-model:value="priority">
             <a-select-option v-for="index in [1, 2, 3, 4]" :value="index" :key="index">{{ index }}</a-select-option>
         </a-select>
-</a-modal>
+    </a-modal>
 </template>
 <!-- eslint-disable prettier/prettier -->
 

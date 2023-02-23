@@ -83,3 +83,7 @@ export const changePwd = (id: number, userPwd: string) => {
   const requestText = "/changePwd";
   return http.post(requestText, { id, userPwd });
 };
+export const upAricle = (id: number, articleData: string) => {
+  const requestText = "/updataArticle";
+  return http.post(requestText, { id, articleData });
+};

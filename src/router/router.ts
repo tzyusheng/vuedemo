@@ -78,5 +78,56 @@ router.beforeEach(async (to, from, next) => {
   }
   next();
 });
-
+router.afterEach((to, from) => {
+  switch (to?.name) {
+    case "about":
+      {
+        document.title = to.query?.title as string;
+      }
+      break;
+    case "bloginfo":
+      {
+        document.title = "我的";
+      }
+      break;
+    case "login":
+      {
+        document.title = "登录";
+      }
+      break;
+    case "blogbackstage":
+      {
+        document.title = "博客后台";
+      }
+      break;
+    case "userMange":
+      {
+        document.title = "用户管理";
+      }
+      break;
+    case "newArticle":
+      {
+        document.title = "发布文章";
+      }
+      break;
+    case "delArticle":
+      {
+        document.title = "删除文章";
+      }
+      break;
+    case "recommendArticle":
+      {
+        document.title = "推荐文章";
+      }
+      break;
+    case "editArticle":
+      {
+        document.title = "编辑文章";
+      }
+      break;
+    default: {
+      document.title = "meBlog";
+    }
+  }
+});
 export default router;

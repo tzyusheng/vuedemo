@@ -48,11 +48,11 @@
 <!-- eslint-disable prettier/prettier -->
 
 <script setup lang="ts">
-import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
+import { onBeforeUnmount, ref, shallowRef, onMounted, defineProps, defineEmits } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 // 编辑器实例，必须用 shallowRef
 import { IEditorConfig } from '@wangeditor/editor'
-import { addAricle, selectblogArticleTypeAll, upload } from '@/api/api';
+import { addAricle, getArticleData, selectblogArticleTypeAll, upAricle, upload } from '@/api/api';
 import message from 'ant-design-vue/lib/message';
 // let editorConfig: Partial<IEditorConfig> = {   // TS 语法
 
@@ -67,6 +67,8 @@ interface FileItem {
     originFileObj?: any;
     file: string | Blob;
 }
+const props = defineProps(['id'])
+const emits = defineEmits(['hiddenNewArticle'])
 const editorRef = shallowRef()
 const mode = "default"
 const articleTitle = ref();
@@ -77,18 +79,6 @@ const recommend = ref(false)
 const imageUrl = ref()
 const loading = ref(false)
 const fileList = ref<FileItem[]>([]);
-// 内容 HTML
-// const valueHtml = ref('<p>hello</p>')
-
-// 模拟 ajax 异步获取内容
-onMounted(async () => {
-    // setTimeout(() => {
-    //     valueHtml.value = '<p>模拟 Ajax 异步设置内容</p>'
-    // }, 1500)
-    blogArticleTypeLists.value = await selectblogArticleTypeAll()
-    // console.log();
-
-})
 
 const toolbarConfig = {}
 const editorConfig: Partial<IEditorConfig> = {
@@ -120,8 +110,6 @@ const clearData = () => {
     recommend.value = false
 }
 const addArticle = async () => {
-    console.log(editorRef.value.getHtml());
-
     if (recommend.value) {
         if (!imageUrl.value) {
             message.warn('文章为推荐文章,文章图片不能为空')
@@ -137,6 +125,7 @@ const addArticle = async () => {
         articleImg: imageUrl.value,
         recommend: recommend.value
     }
+
     const dataValidate = Object.keys(data).some((item) => {
         if (item === 'articleImg') { return false }
         return data[item] === undefined || data[item] === ""
@@ -148,15 +137,18 @@ const addArticle = async () => {
     }
 
     try {
-        console.log(data);
+        const res = props?.id ? await upAricle(props?.id, data) : await addAricle(data)
+        if (res.status) {
+            message.success(`文章${props?.id ? '更新' : '发布'}成功`)
+            props?.id && emits('hiddenNewArticle', true)
+            clearData()
+        } else {
+            throw res.statusText
+        }
 
-        await addAricle(data)
-        message.success('文章发布成功')
-        clearData()
     } catch (err: any) {
-        message.error(err?.message)
+        message.error(err)
     }
-
 
 }
 const beforeUpload = (file: FileItem) => {
@@ -176,6 +168,21 @@ const handleUpload = async () => {
     }
 
 };
+
+onMounted(async () => {
+    blogArticleTypeLists.value = await selectblogArticleTypeAll()
+    if (props.id) {
+        const articleData: any = await getArticleData({ id: props.id })
+        if (articleData.code == 200) {
+            articleTitle.value = articleData?.data.articleTitle
+            blogArticleType.value = articleData?.data.blogArticleType.id
+            articleType.value = articleData?.data.articleType
+            editorRef.value.setHtml(articleData?.data.articleContext)
+            imageUrl.value = articleData?.data?.articleImg || ''
+            recommend.value = articleData?.data.recommend
+        }
+    }
+})
 
 </script>
 <!-- eslint-disable prettier/prettier -->

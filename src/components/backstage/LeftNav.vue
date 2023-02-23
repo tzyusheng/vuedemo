@@ -51,6 +51,10 @@ const list = [
             key: '1.3',
             title: '推荐文章',
             name: 'recommendArticle',
+        }, {
+            key: '1.4',
+            title: '编辑文章',
+            name: 'editArticle',
         }]
     },
     {

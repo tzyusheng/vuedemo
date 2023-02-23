@@ -85,8 +85,6 @@ const formState = reactive({
 });
 const getUserInfo = async () => {
     const res = await getUserAll()
-    console.log(res);
-
     if (res.status) {
         data.value = res.data.map((item: any) => {
             item.StateText = item.State ? '启用' : '停用'

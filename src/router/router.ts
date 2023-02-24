@@ -42,6 +42,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "login",
     component: () => import("../page/LoginPage.vue"),
   },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: () => import("../page/ErrorPage.vue"),
+  },
 ];
 const router = createRouter({
   history: createWebHashHistory(),

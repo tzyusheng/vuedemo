@@ -5,16 +5,18 @@
       <slot></slot>
     </div>
     <div class="nav-text">
-      <ul>
-        <li class="hover-color" v-for="item, index in menuList" :key="index" @click="toClick(item)">
-          <SvgIcon :iconName="item.iconName" />
-          <span>{{ item.title }}</span>
-        </li>
-      </ul>
+      <div class="phone-menu" @click="showMenu">
+        <SvgIcon iconName="caidan" style="color:#2a59a7;font-size: 20px;" />
+      </div>
     </div>
+    <ul :class="{ showmenu: menuState }">
+      <li class="hover-color" v-for="item, index in menuList" :key="index" @click="toClick(item)">
+        <SvgIcon :iconName="item.iconName" />
+        <span>{{ item.title }}</span>
+      </li>
+    </ul>
+
   </div>
-
-
 </template>
 <!-- eslint-disable prettier/prettier -->
 
@@ -22,6 +24,7 @@
 import SvgIcon from './SvgIcon.vue';
 import { useRouter } from 'vue-router';
 import { getArticleType } from '@/api/api';
+import { ref } from 'vue';
 // import ImgRotate from './ImgRotate.vue';
 // export default {
 //   name: "BlogNav",
@@ -37,6 +40,7 @@ interface menuType {
   dataName?: string,
   queryState?: boolean | undefined
 }
+const menuState = ref<boolean>(false)
 const menuList = [
   { title: '主页', iconName: 'zhuye', pathName: 'index', queryState: true },
   { title: '技能笔记', iconName: 'biji', pathName: 'about', dataName: 'jnbj' },
@@ -59,6 +63,10 @@ const toClick = async (menuInfo: menuType) => {
   }
 
   router.push(routerObj)
+  menuState.value = false
+}
+const showMenu = () => {
+  menuState.value = !menuState.value
 }
 </script>
 <!-- eslint-disable prettier/prettier -->
@@ -67,41 +75,67 @@ const toClick = async (menuInfo: menuType) => {
 .header-nav {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   height: 100%;
   margin: 0 50px;
 
-  .nav-text {
-    cursor: default;
+  .phone-menu {
+    display: none;
+  }
+
+  &>ul {
+    display: flex;
+
+    li {
+      padding: 0 10px;
+      cursor: pointer;
+
+      span {
+        margin-left: 5px;
+      }
+
+    }
+
+  }
+}
+
+@media (max-width:800px) {
+  .header-nav {
+    // position: relative;
+
+
+    .nav-text {
+      display: block;
+
+
+
+      // background-color: red;
+      .phone-menu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+      }
+
+
+
+
+    }
 
     ul {
-      display: flex;
-
-      li {
-        padding: 0 10px;
-
-        span {
-          margin-left: 5px;
-        }
-
-        // span {
-        //   position: relative;
-
-        //   &::after {
-        //     content: "";
-        //     display: block;
-        //     position: absolute;
-        //     top: 0;
-        //     bottom: 0;
-        //     margin: auto;
-        //     left: -1rem;
-        //     width: 1rem;
-        //     height: 1rem;
-        //     background: url('../assets/blogiocn/home.svg') 0 0 / 100% auto;
-
-        //   }
-        // }
-      }
+      // position: absolute;
+      // top: 60px;
+      // left: 0;
+      display: none;
+      width: 100vw;
     }
+
+
+    .showmenu {
+      display: block;
+    }
+
   }
+
 }
 </style>

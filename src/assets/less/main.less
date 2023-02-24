@@ -6,17 +6,18 @@
 .blog {
   height: 100%;
   & > header {
-    height: 50px;
-    line-height: 50px;
+    // height: 50px;
     padding: 5px 0;
     text-align: center;
+    background-color: @blogBg;
+    margin-bottom: 50px;
     nav {
       position: fixed;
       padding: 5px 0;
       top: 0;
       z-index: 999;
       width: 100%;
-      background-color: @blogBg;
+      line-height: 50px;
       backdrop-filter: blur(5px);
       .hover-color {
         color: @blogColor;
@@ -31,7 +32,8 @@
   main {
     max-width: 1100px;
     margin: 0 auto;
-    min-height: 500px;
+    // min-height: 433px;
+    min-height: calc(100vh - 210px);
     padding-bottom: 20px;
     .recommend {
       height: 400px;
@@ -45,7 +47,7 @@
   footer {
     position: relative;
     width: 100%;
-    height: 200px;
+    height: 130px;
     text-align: center;
     background-color: black;
     color: white;

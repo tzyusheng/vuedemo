@@ -1,7 +1,7 @@
 <!-- eslint-disable prettier/prettier -->
 
 <template>
-    <div class="recommend-page">
+    <div class="recommend-page" v-if="articleList">
         <div class="recommend-main">
             <div class="article-item" @click="toArticle(articleListOne?.articleId)">
                 <img :src="articleListOne?.articleImg" alt="">
@@ -21,7 +21,8 @@
     </div>
 </template>
 <!-- eslint-disable prettier/prettier -->
-<script lang="ts" setup>import { selectRecommend } from '@/api/api';
+<script lang="ts" setup>
+import { selectRecommend } from '@/api/api';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 

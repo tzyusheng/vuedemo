@@ -54,9 +54,6 @@ const router = createRouter({
 
 // 路由守卫
 router.beforeEach(async (to, from, next) => {
-  // console.log(from.path);
-  // console.log(to.path);
-
   if (to.path === "/blog" || to.path.startsWith("/blog/")) {
     if (to.matched.length === 0) {
       if (await addBlogBackstagePath(router)) {
@@ -69,6 +66,14 @@ router.beforeEach(async (to, from, next) => {
         sessionStorage.setItem("routerPath", to.path);
         return next("/login");
       }
+    }
+
+    if (!(await addBlogBackstagePath(router))) {
+      // 保存当前页面路由
+      sessionStorage.setItem("routerPath", to.path);
+      // 设置为登录状态离线
+      sessionStorage.setItem("login", "true");
+      return next({ path: "/login", replace: true });
     }
   }
   if (to.path === "/login") {

@@ -58,7 +58,7 @@ watchEffect(() => {
     <a-layout class="blog-backstage">
         <a-layout-sider :collapsed="collapsed" :trigger="null" collapsible>
             <LeftNav style="height: 100%" :collapsed="collapsed">
-                <div class="backstage-menu-header">
+                <div class="backstage-menu-header" @click="toBackstageIndex">
                     <div class="menu-header-logo">
                         <img src="../../assets/logo.png" alt="">
                     </div>
@@ -88,7 +88,6 @@ watchEffect(() => {
 import { MenuUnfoldOutlined, MenuFoldOutlined, } from '@ant-design/icons-vue';
 import { ref } from 'vue';
 import 'ant-design-vue/dist/antd.css';
-import "@surely-vue/table/dist/index.css";
 import LeftNav from "../../components/backstage/LeftNav.vue"
 import router from '@/router/router';
 import { exitLogin } from '@/api/api';
@@ -102,7 +101,14 @@ const eixtLogin = async () => {
     const loginState = await exitLogin()
     if (!loginState) {
         router.replace("/login")
+        // 设置登录状态为离线
+        sessionStorage.setItem('login', 'true')
     }
+}
+const toBackstageIndex = () => {
+    router.push({
+        name: 'backstageIndex'
+    })
 }
 </script>
 <!-- eslint-disable prettier/prettier -->

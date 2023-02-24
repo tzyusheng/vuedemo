@@ -1,23 +1,17 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
-    <div class="details">
+    <div class="details" v-if="articleArrs">
         <div class="details-header">
             <h2>{{ articleArrs?.articleTitle }}</h2>
             <p class="details-info">
                 <SvgIcon iconName="riqi" /> {{ formatDate(articleArrs?.articleTime) }}
                 <span>文章类型: {{ articleArrs?.blogArticleType?.articleTypeName }}</span>
             </p>
-
-
         </div>
-        <!-- <p>
-            {{ articleArrs?.articleText }}
-        </p> -->
+
         <Editor style="overflow-y: hidden;margin-top: 20px;min-height: 500px;" :defaultConfig="editorConfig"
             v-model="valueHtml" />
-        <!-- <div style="margin-top: 20px;" v-html="valueHtml"></div> -->
     </div>
-
 </template>
 <!-- eslint-disable prettier/prettier -->
 
@@ -26,15 +20,17 @@
 import { getArticleData } from "@/api/api";
 import { defineProps, inject, onMounted, ref } from "vue";
 import { Editor } from '@wangeditor/editor-for-vue'
-
+// import 'ant-design-vue/dist/antd.css';
 
 const props = defineProps(['id'])
-let articleArrs: any = ref({})
-const valueHtml = ref('<h1>hello</h1>')
+const articleArrs: any = ref()
+const valueHtml = ref('')
 const formatDate: any = inject('$formatDate')
 onMounted(async () => {
     articleArrs.value = await getArticleDetails(props.id)
     valueHtml.value = articleArrs.value?.articleContext
+    document.title = articleArrs.value.articleTitle
+
 })
 const getArticleDetails = async (id: number) => {
     const res = await getArticleData({ id })
@@ -56,6 +52,8 @@ const editorConfig = {
 <!-- eslint-disable prettier/prettier -->
 
 <style lang="less" scoped>
+// @import url('ant-design-vue/dist/antd.css');
+
 .details {
     text-align: center;
 

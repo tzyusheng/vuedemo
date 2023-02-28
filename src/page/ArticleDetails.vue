@@ -11,6 +11,9 @@
 
         <Editor style="overflow-y: hidden;margin-top: 20px;min-height: 500px;" :defaultConfig="editorConfig"
             v-model="valueHtml" />
+    <!-- <div id="editor-content-view" class="editor-content-view"
+                style="overflow-y: hidden; margin-top: 20px; min-height: 500px;" v-html="valueHtml"></div> -->
+
     </div>
 </template>
 <!-- eslint-disable prettier/prettier -->

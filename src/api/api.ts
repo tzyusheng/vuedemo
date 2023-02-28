@@ -19,6 +19,10 @@ export const login = (userName: string, userPwd: string) => {
   const requestText = "/login";
   return http.post(requestText, { userName, userPwd });
 };
+// export const login = (userName: string, userPwd: string) => {
+//   const requestText = `/login?userName=${userName}&userPwd=${userPwd}`;
+//   return http.get(requestText);
+// };
 export const isSession = () => {
   const requestText = "/login/isSession";
   return http.get(requestText);
@@ -48,8 +52,8 @@ export const selectBlogarticleAll = () => {
   return http.get(requestText);
 };
 export const delArticle = (id: number) => {
-  const requestText = "/delArticle";
-  return http.delete(requestText, id);
+  const requestText = `/delArticle/${id}`;
+  return http.delete(requestText, false);
 };
 export const setPriority = (priority: any) => {
   const requestText = "/setPriority";
@@ -86,4 +90,9 @@ export const changePwd = (id: number, userPwd: string) => {
 export const upAricle = (id: number, articleData: string) => {
   const requestText = "/updataArticle";
   return http.post(requestText, { id, articleData });
+};
+
+export const delImg = (imgName: string) => {
+  const requestText = "/delImg";
+  return http.delete(requestText, { imgName });
 };

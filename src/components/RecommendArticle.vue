@@ -64,7 +64,6 @@ const toArticle = (id: number) => {
             flex-direction: column;
             height: 100%;
 
-
             li {
                 display: flex;
                 align-items: center;
@@ -114,6 +113,38 @@ const toArticle = (id: number) => {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+    }
+
+}
+
+@media (max-width:800px) {
+    .recommend-page {
+        flex-direction: column;
+        box-sizing: border-box;
+        padding: 0 10px;
+
+        .recommend-main {
+            margin-bottom: 10px;
+            height: 150px;
+        }
+
+        .recommend-list {
+            width: 100%;
+            height: 100px;
+            margin: 0;
+
+            ul {
+                flex-direction: row;
+
+                li {
+                    margin: 0 5px;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
         }
     }
 }

@@ -43,6 +43,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../page/LoginPage.vue"),
   },
   {
+    path: "/upimg",
+    name: "upimg",
+    component: () => import("../page/backstage/updataImge.vue"),
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("../page/ErrorPage.vue"),
@@ -73,7 +78,7 @@ router.beforeEach(async (to, from, next) => {
       }
     }
 
-    if (!(await addBlogBackstagePath(router))) {
+    if (!(await addBlogBackstagePath(router, to.path))) {
       // 保存当前页面路由
       sessionStorage.setItem("routerPath", to.path);
       // 设置为登录状态离线
@@ -88,7 +93,7 @@ router.beforeEach(async (to, from, next) => {
   }
   next();
 });
-router.afterEach((to, from) => {
+router.afterEach((to) => {
   switch (to?.name) {
     case "about":
       {

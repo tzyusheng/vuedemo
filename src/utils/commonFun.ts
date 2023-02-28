@@ -39,16 +39,16 @@ const routerObj = (obj: any) => {
   return obj;
 };
 // const router = useRouter();
-const addBlogBackstagePath = async (router: Router) => {
+const addBlogBackstagePath = async (router: Router, path = "/blog") => {
   const routerJson: any = await isSession();
   if (routerJson.status) {
     const routerPath = sessionStorage.getItem("routerPath");
     const login = sessionStorage.getItem("login");
     // 如果路由还存在则无需进行路由添加直接跳转
-    if (isBlogBackstage(router.getRoutes())) {
+    if (router.hasRoute("blogbackstage")) {
       // 如果是状态掉了,就进行跳转,防止无限触发
       if (login === "true") {
-        router.replace(routerPath || "/blog");
+        router.replace(routerPath || path);
       }
       // 跳转完毕之后清除保存的页面
       sessionStorage.removeItem("routerPath");
@@ -58,19 +58,9 @@ const addBlogBackstagePath = async (router: Router) => {
     }
     await router.addRoute(routerObj(JSON.parse(routerJson.router)));
     sessionStorage.removeItem("routerPath");
-    router.replace(routerPath || "/blog");
+    router.replace(routerPath || path);
     return true;
   }
   return false;
-};
-// 判断后台路由是否还存在
-const isBlogBackstage = (backstagePath: any) => {
-  let routerBackstage = false;
-  backstagePath.forEach((item: any) => {
-    if (item.name === "blogbackstage") {
-      routerBackstage = true;
-    }
-  });
-  return routerBackstage;
 };
 export { formatDate, addBlogBackstagePath };

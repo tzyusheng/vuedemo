@@ -43,11 +43,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../page/LoginPage.vue"),
   },
   {
-    path: "/upimg",
-    name: "upimg",
-    component: () => import("../page/backstage/updataImge.vue"),
-  },
-  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import("../page/ErrorPage.vue"),

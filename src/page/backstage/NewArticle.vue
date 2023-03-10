@@ -37,7 +37,7 @@
                 </div>
             </a-upload>
             <a-modal v-if="previewVisible" :visible="true" :footer="null" @cancel="handleCancel">
-                <img alt="example" style="width: 100%" :src="imageUrl" />
+                <img alt="example" style="width: 100%" :src="imgHttp + imageUrl" />
             </a-modal>
         </div>
     </div>
@@ -58,6 +58,7 @@ import {
     onMounted,
     defineProps,
     defineEmits,
+    inject,
 } from "vue";
 import { Editor, Toolbar } from "@wangeditor/editor-for-vue";
 // 编辑器实例，必须用 shallowRef
@@ -71,10 +72,6 @@ import {
     upload,
 } from "@/api/api";
 import message from "ant-design-vue/lib/message";
-import { FlagFilled } from "@ant-design/icons-vue";
-// let editorConfig: Partial<IEditorConfig> = {   // TS 语法
-
-// }
 interface FileItem {
     uid: string;
     name?: string;
@@ -87,6 +84,8 @@ interface FileItem {
 }
 const props = defineProps(["id"]);
 const emits = defineEmits(["hiddenNewArticle"]);
+const imgHttp: any = inject('$imgHttp')
+
 const editorRef = shallowRef();
 const mode = "default";
 const articleTitle = ref();
@@ -96,6 +95,7 @@ const blogArticleTypeLists = ref();
 const recommend = ref(false);
 const imageUrl = ref();
 // const loading = ref(false);
+const uploadImg: any = []
 const fileList = ref<FileItem[]>([]);
 const previewVisible = ref<boolean>(false);
 
@@ -127,8 +127,9 @@ const clearData = () => {
     editorRef.value.clear();
     imageUrl.value = "";
     recommend.value = false;
+    fileList.value = []
 };
-const addArticle = async () => {
+const addArticle = async (click = true) => {
     if (recommend.value) {
         if (!imageUrl.value) {
             message.warn("文章为推荐文章,文章图片不能为空");
@@ -161,6 +162,9 @@ const addArticle = async () => {
             ? await upAricle(props?.id, data)
             : await addAricle(data);
         if (res.status) {
+            if (!click) {
+                return true
+            }
             message.success(`文章${props?.id ? "更新" : "发布"}成功`);
             props?.id && emits("hiddenNewArticle", true);
             clearData();
@@ -173,24 +177,27 @@ const addArticle = async () => {
 };
 
 const beforeUpload = (file: FileItem) => {
-    fileList.value = [...fileList.value, file];
-    return false;
+    fileList.value.push(file)
+    uploadImg[0] = file
+    return false
 };
 const handleUpload = async () => {
     if (fileList.value.length == 0) {
         return false
     }
     const formData = new FormData();
-    fileList.value.forEach((file: any) => {
-        formData.append("files[]", file as any);
-    });
-    // loading.value = true;
+    formData.append("image", uploadImg[0], "image.png");
     const res: any = await upload(formData);
     if (res?.errno === 0) {
-        imageUrl.value = res.data.url;
+        imageUrl.value = res.data.imgUrl;
         fileList.value = [res.data];
         message.success("图片上传成功");
+        return true
     }
+    fileList.value = []
+    uploadImg.length = 0
+    message.error("图片上传失败");
+    return false
 };
 const handlePreview = () => {
     previewVisible.value = true
@@ -217,6 +224,7 @@ const getClipboardFiles = (event: any) => {
     }
     beforeUpload(file);
     handleUpload();
+
 };
 
 const copyImg = (e: any) => {
@@ -227,21 +235,27 @@ const copyImg = (e: any) => {
     // e.target.addEventListener('paste', getClipboardFiles)
 }
 const removeImag = async () => {
-    console.log('点击删除');
     const res = await delImg(fileList?.value[0]?.name as string)
-    console.log(res);
     if (res.status) {
+        imageUrl.value = ''
+        recommend.value = false
+        uploadImg.length = 0
+        if (props?.id) {
+            addArticle(false)
+        }
         message.success(res.statusText)
         return true
     }
     message.error(res.statusText)
     return false
 }
-
-
+const getImageName = (url: string) => {
+    const names = url.split('/')
+    return names.at(-1)
+}
 onMounted(async () => {
     blogArticleTypeLists.value = await selectblogArticleTypeAll();
-    if (props.id) {
+    if (props?.id) {
         const articleData: any = await getArticleData({ id: props.id });
         if (articleData.code == 200) {
             articleTitle.value = articleData?.data.articleTitle;
@@ -249,6 +263,8 @@ onMounted(async () => {
             articleType.value = articleData?.data.articleType;
             editorRef.value.setHtml(articleData?.data.articleContext);
             imageUrl.value = articleData?.data?.articleImg || "";
+            console.log(articleData?.data?.articleImg);
+            fileList.value = articleData?.data?.articleImg ? [{ uid: '', url: imgHttp + imageUrl.value, file: '', name: getImageName(imageUrl.value) }] : []
             recommend.value = articleData?.data.recommend;
         }
     }

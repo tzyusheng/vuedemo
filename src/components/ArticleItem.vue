@@ -2,7 +2,7 @@
 <template>
   <div class="article-item">
     <div class="item-img" v-if="articleObj?.articleImg">
-      <img :src="articleObj.articleImg" alt="" />
+      <img :src="`${imgHttp}${articleObj.articleImg}`" alt="" />
     </div>
     <div class="item-info">
       <h4>
@@ -13,13 +13,13 @@
       <div class="item-bottom">
         <div class="item-parameter">
           <SvgIcon iconName="riqi" class="icon-color"></SvgIcon>
-          {{ formatDate(articleObj.articleTime) }}
+          {{ formatDate(articleObj.articleUpdateTime) }}
         </div>
         <button @click="toArticle(articleObj.articleId)">文章详情</button>
       </div>
 
     </div>
-</div>
+  </div>
 </template>
 <!-- eslint-disable prettier/prettier -->
 
@@ -38,6 +38,7 @@ const toArticle = (id: number) => {
 }
 
 const formatDate: any = inject('$formatDate')
+const imgHttp: any = inject('$imgHttp')
 
 </script>
 <!-- eslint-disable prettier/prettier -->
@@ -72,12 +73,16 @@ const formatDate: any = inject('$formatDate')
   .item-img {
     flex: 2;
     // width: 100%;
+    display: flex;
     overflow: hidden;
     margin-right: 20px;
-    object-fit: cover;
+    // object-fit: cover;
     height: 200px;
+    align-items: center;
+    justify-content: center;
 
     img {
+      // width: 100%;
       height: 100%;
       transition: .8s;
     }

@@ -4,7 +4,7 @@
     <div class="recommend-page" v-if="articleList">
         <div class="recommend-main">
             <div class="article-item" @click="toArticle(articleListOne?.articleId)">
-                <img :src="articleListOne?.articleImg" alt="">
+                <img :src="imgHttp + articleListOne?.articleImg" alt="">
                 <p>{{ articleListOne?.articleTitle }}</p>
             </div>
         </div>
@@ -12,7 +12,7 @@
             <ul>
                 <li v-for="item in articleList" :key="item.articleId">
                     <div class="article-item" @click="toArticle(item?.articleId)">
-                        <img :src="item.articleImg" alt="">
+                        <img :src="imgHttp + item.articleImg" alt="">
                         <p> {{ item.articleTitle }}</p>
                     </div>
                 </li>
@@ -23,11 +23,13 @@
 <!-- eslint-disable prettier/prettier -->
 <script lang="ts" setup>
 import { selectRecommend } from '@/api/api';
-import { onMounted, ref } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const articleList = ref()
 const articleListOne = ref()
+const imgHttp: any = inject('$imgHttp')
+
 onMounted(async () => {
     articleList.value = await selectRecommend()
     articleListOne.value = articleList.value[0]
@@ -86,12 +88,14 @@ const toArticle = (id: number) => {
         height: 100%;
         border-radius: 5px;
         overflow: hidden;
-        background-color: #ccc;
+        background-color: white;
+        display: flex;
+        align-items: center;
 
         img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            // height: 100%;
+            // object-fit: cover;
             transition: .6s;
 
             &:hover {

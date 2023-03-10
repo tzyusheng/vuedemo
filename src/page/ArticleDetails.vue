@@ -4,15 +4,17 @@
         <div class="details-header">
             <h2>{{ articleArrs?.articleTitle }}</h2>
             <p class="details-info">
-                <SvgIcon iconName="riqi" /> {{ formatDate(articleArrs?.articleTime) }}
+                <SvgIcon iconName="riqi" /> {{ formatDate(articleArrs?.articleUpdateTime) }}
                 <span>文章类型: {{ articleArrs?.blogArticleType?.articleTypeName }}</span>
             </p>
         </div>
+        <div class="details-main">
+            <Editor style="overflow-y: hidden;margin-top: 20px;min-height: 500px;" :defaultConfig="editorConfig"
+                v-model="valueHtml" />
+        </div>
 
-        <Editor style="overflow-y: hidden;margin-top: 20px;min-height: 500px;" :defaultConfig="editorConfig"
-            v-model="valueHtml" />
     <!-- <div id="editor-content-view" class="editor-content-view"
-                style="overflow-y: hidden; margin-top: 20px; min-height: 500px;" v-html="valueHtml"></div> -->
+                            style="overflow-y: hidden; margin-top: 20px; min-height: 500px;" v-html="valueHtml"></div> -->
 
     </div>
 </template>
@@ -74,6 +76,10 @@ const editorConfig = {
             font-size: 14px;
             color: rgb(134, 131, 131);
         }
+    }
+
+    .details-main {
+        text-align: left;
     }
 
 }

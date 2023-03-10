@@ -40,6 +40,11 @@ const columns = [
         width: 150,
     },
     {
+        title: '更新时间',
+        dataIndex: 'articleUpdateTime',
+        width: 150,
+    },
+    {
         title: '推荐内容',
         dataIndex: 'recommend',
         width: 150,
@@ -56,6 +61,7 @@ const getData = async () => {
     data.value = res.map((item: any) => {
         item.recommend = item?.recommend ? '是' : '否'
         item.articleTime = formatDate(item?.articleTime)
+        item.articleUpdateTime = formatDate(item?.articleUpdateTime)
         return item
     })
 }
@@ -89,7 +95,5 @@ const delBlogArticle = async (id: number) => {
 </script>
 <!-- eslint-disable prettier/prettier -->
 
-<style lang="less">
-
-</style>
+<style lang="less"></style>
 

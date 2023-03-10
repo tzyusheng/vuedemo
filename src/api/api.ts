@@ -39,9 +39,13 @@ export const addAricle = (data: any) => {
   const requestText = "/add";
   return http.post(requestText, data);
 };
-export const upload = (flie: any) => {
+export const upload = (file: any) => {
+  // const file = JSON.parse(JSON.stringify(files));
+  // console.log(file);
+
   const requestText = "/upload";
-  return http.post(requestText, flie);
+  // const requestText = "/upFile";
+  return http.post(requestText, file);
 };
 export const selectRecommend = () => {
   const requestText = "/selectRecommend";

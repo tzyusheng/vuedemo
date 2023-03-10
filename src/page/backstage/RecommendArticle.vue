@@ -45,6 +45,11 @@ const columns = [
         width: 150,
     },
     {
+        title: '更新时间',
+        dataIndex: 'articleUpdateTime',
+        width: 150,
+    },
+    {
         title: '优先级',
         dataIndex: 'priority',
         width: 50,
@@ -62,9 +67,9 @@ const showModal = (record: any) => {
     articleTitle.value = record.articleTitle
     articleId.value = record.articleId
     visible.value = true;
+    priority.value = record.priority
 };
 const clickPriority = async () => {
-    console.log('更改');
     const data = {
         articleId: articleId.value,
         priority: priority.value
@@ -83,6 +88,7 @@ const getData = async () => {
     const res: any = await selectRecommend()
     data.value = res.map((item: any) => {
         item.articleTime = formatDate(item?.articleTime)
+        item.articleUpdateTime = formatDate(item?.articleUpdateTime)
         return item
     })
 }

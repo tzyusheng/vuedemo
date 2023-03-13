@@ -1,7 +1,13 @@
 <!-- eslint-disable prettier/prettier -->
 <template>
     <div class="nopage">
-        <button @click="toIndex">返回首页</button>
+        <!-- <p class="text">404</p> -->
+        <img src="../assets/404logo.png" alt="">
+        <div class="text">
+            <p>页面找不到了!</p>
+            <button @click="toIndex">返回首页</button>
+        </div>
+
     </div>
 </template>
 <!-- eslint-disable prettier/prettier -->
@@ -20,30 +26,53 @@ const toIndex = () => {
 
 <style lang="less" scoped>
 .nopage {
-    display: flex;
-    justify-content: center;
-    align-items: end;
+    position: relative;
     width: 100vw;
     height: 100vh;
-    background-image: url('../assets/404.png');
-    background-size: cover;
-    background-position: center;
+    overflow: hidden;
 
+    // text-align: center;
+    .text {
+        position: absolute;
+        right: 0;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        width: 50%;
+        height: 100%;
+        // text-align: center;
+        font-weight: bolder;
+        // align-items: center;
+        justify-content: center;
 
-    button {
-        background-color: rgb(255, 210, 87);
-        border: none;
-        border-radius: 5px;
-        width: 80px;
-        height: 35px;
-        // color: white;    
-        transform: translateY(-80px);
-        transition: .5s;
+        p {
+            margin-bottom: 50px;
+            font-size: 50px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+        }
 
-        &:hover {
-            transform: translateY(-82px);
-            box-shadow: 0px 3px 18px #ccc;
+        button {
+            background-color: rgb(70, 116, 246);
+            border: none;
+            border-radius: 5px;
+            width: 80px;
+            height: 35px;
+            // transform: translateY(-80px);
+            color: white;
+            transition: .5s;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0px 3px 18px #ccc;
+            }
         }
     }
+
+    img {
+        position: absolute;
+        height: 100%;
+    }
+
+
 }
 </style>

@@ -57,8 +57,11 @@ watchEffect(() => {
 <template>
     <a-layout class="blog-backstage">
         <a-layout-sider :collapsed="collapsed" :trigger="null" collapsible>
-            <LeftNav style="height: 100%" :collapsed="collapsed">
-                <div class="backstage-menu-header" @click="toBackstageIndex">
+            <LeftNav style="height: 100%" :collapsed="collapsed" v-slot="{ restSelectKeys }">
+                <div class="backstage-menu-header" @click="() => {
+                    restSelectKeys()
+                    toBackstageIndex()
+                }">
                     <div class="menu-header-logo">
                         <img src="../../assets/logo.png" alt="">
                     </div>
@@ -106,6 +109,7 @@ const eixtLogin = async () => {
     }
 }
 const toBackstageIndex = () => {
+
     router.push({
         name: 'backstageIndex'
     })

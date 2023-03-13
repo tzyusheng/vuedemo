@@ -2,10 +2,10 @@
 
 <template>
     <div>
-        <slot></slot>
+        <slot :rest-select-keys="restSelectKeys"></slot>
         <a-menu v-model:openKeys="openKeys" v-model:selectedKeys="selectedKeys" mode="inline" theme="dark"
             :collapsed="collapsed">
-            <template v-for="item in list" :key="item.key">
+            <template v-for="item in     list" :key="item.key">
                 <template v-if="!item.children">
                     <a-menu-item :key="item.key" @click="menuTo(item?.name)">
                         <template #icon>
@@ -104,7 +104,10 @@ const selectMenuItem = (data: any) => {
 
     })
 }
-
+// 清除选中状态
+const restSelectKeys = () => {
+    selectedKeys.value = [''];
+}
 onMounted(() => {
     selectMenuItem(list)
 })

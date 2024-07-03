@@ -96,7 +96,19 @@ export const upAricle = (id: number, articleData: string) => {
   return http.post(requestText, { id, articleData });
 };
 
-export const delImg = (imgName: string) => {
+export const delImg = (imgNames: any) => {
   const requestText = "/delImg";
-  return http.delete(requestText, { imgName });
+  return http.delete(requestText, { imgNames });
+};
+export const delBlogarticleType = (id: number) => {
+  const requestText = `/delBlogarticleType/${id}`;
+  return http.delete(requestText, false);
+};
+export const addBlogarticleType = (articleTypeName: string) => {
+  const requestText = "/addarticleType";
+  return http.post(requestText, { articleTypeName });
+};
+export const changeBlogarticleType = (id: number, articleTypeName: string) => {
+  const requestText = "/changeBlogarticleType";
+  return http.post(requestText, { id, articleTypeName });
 };

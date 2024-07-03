@@ -91,6 +91,7 @@ const toArticle = (id: number) => {
         background-color: white;
         display: flex;
         align-items: center;
+        cursor: pointer;
 
         img {
             width: 100%;

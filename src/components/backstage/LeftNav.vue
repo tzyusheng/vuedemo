@@ -55,7 +55,13 @@ const list = [
             key: '1.4',
             title: '编辑文章',
             name: 'editArticle',
-        }]
+        },
+            // {
+            //     key: '1.5',
+            //     title: '分类管理',
+            //     name: 'typeArticle',
+            // }
+        ]
     },
     {
         key: '2',

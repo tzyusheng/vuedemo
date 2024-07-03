@@ -135,6 +135,11 @@ router.afterEach((to) => {
         document.title = "编辑文章";
       }
       break;
+    case "typeArticle":
+      {
+        document.title = "分类管理";
+      }
+      break;
     default: {
       document.title = "meBlog";
     }

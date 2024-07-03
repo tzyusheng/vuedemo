@@ -30,7 +30,7 @@
         <div @paste="copyImg" title="点击标题粘贴图片">
             文章封面图
             <a-upload list-type="picture-card" :show-upload-list="true" @change="handleUpload" :before-upload="beforeUpload"
-                v-model:file-list="fileList" @preview="handlePreview" @remove="removeImag">
+                accept=".jpg,.png,.gif,.jpeg" v-model:file-list="fileList" @preview="handlePreview" @remove="removeImag">
                 <!-- <img v-if="imageUrl" :src="imageUrl" style="width: 100%" /> -->
                 <div v-if="fileList.length == 0">
                     <div class="ant-upload-text">上传图片</div>
@@ -41,12 +41,15 @@
             </a-modal>
         </div>
     </div>
-    <div style="border: 1px solid #ccc; margin-bottom: 20px">
+    <div style="border: 1px solid #ccc; margin-bottom: 20px;">
         <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig" :mode="mode" />
-        <Editor style="height: 300px; overflow-y: hidden" :defaultConfig="editorConfig" :mode="mode"
-            @onCreated="handleCreated" :readOnly="true" />
+        <Editor :defaultConfig="editorConfig" style="height: calc(100vh - 400px) ;" :mode="mode" @onCreated="handleCreated"
+            :readOnly="true" />
     </div>
-    <a-button type="primary" @click="addArticle">发布</a-button>
+    <div :class="{ 'top-btns': screen }">
+        <a-button type="primary" @click="addArticle">发布</a-button>
+        <a-button style="margin-left: 5px;" v-if="props?.id" @click="hiddenNewArticle">取消</a-button>
+    </div>
 </template>
 <!-- eslint-disable prettier/prettier -->
 
@@ -81,6 +84,7 @@ interface FileItem {
     preview?: string;
     originFileObj?: any;
     file: string | Blob;
+    type?: string;
 }
 const props = defineProps(["id"]);
 const emits = defineEmits(["hiddenNewArticle"]);
@@ -94,32 +98,66 @@ const blogArticleType = ref(1);
 const blogArticleTypeLists = ref();
 const recommend = ref(false);
 const imageUrl = ref();
-// const loading = ref(false);
+const screen = ref(false);
 const uploadImg: any = []
 const fileList = ref<FileItem[]>([]);
 const previewVisible = ref<boolean>(false);
+// 当前编辑上传所有图片
+const allUpdateImages = ref<any[]>([])
+// 已上传文章图片
+const oldUpdateImages = ref<any[]>([])
 
 const toolbarConfig = {};
+const onInsertedImage = (imageList: any) => {
+    allUpdateImages.value.push(imageList?.alt)
+}
 const editorConfig: Partial<IEditorConfig> = {
     placeholder: "请输入内容...",
     MENU_CONF: {
         uploadImage: {
             withCredentials: true,
             server: "http://localhost/blog/upload",
+            maxFileSize: 20 * 1024 * 1024,
         },
+        insertImage: {
+            onInsertedImage
+        }
     },
 };
-
+// 删除未保存图片
+const delImageArr = async (imageCurrent: any[]) => {
+    const arr = [...allUpdateImages.value, ...oldUpdateImages.value].filter(item => !imageCurrent.includes(item))
+    if (arr.length) {
+        await delImg(arr)
+    }
+}
+// 处理当前上传图片名称
+const delectImageFn = (imageCurrent: any[]) => {
+    const arr = imageCurrent.map(item => item?.alt)
+    delImageArr(arr)
+}
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
     const editor = editorRef.value;
+    delImageArr(oldUpdateImages.value)
     if (editor == null) return;
     editor.destroy();
 });
 
 const handleCreated = (editor: any) => {
+    if (props?.id) {
+        setTimeout(() => {
+            oldUpdateImages.value = editor.getElemsByType('image').map((item: any) => item?.alt || item?.href.split('/').at(-1))
+        }, 500)
+    }
     editorRef.value = editor; // 记录 editor 实例，重要！
+    editor.on('fullScreen', () => { screen.value = true })
+    editor.on('unFullScreen', () => { screen.value = false })
+
 };
+const hiddenNewArticle = () => {
+    emits("hiddenNewArticle", true)
+}
 const clearData = () => {
     articleTitle.value = "";
     blogArticleType.value = 1;
@@ -128,6 +166,7 @@ const clearData = () => {
     imageUrl.value = "";
     recommend.value = false;
     fileList.value = []
+    allUpdateImages.value = []
 };
 const addArticle = async (click = true) => {
     if (recommend.value) {
@@ -147,7 +186,7 @@ const addArticle = async (click = true) => {
     };
 
     const dataValidate = Object.keys(data).some((item) => {
-        if (item === "articleImg") {
+        if (item === "articleImg" || item === "articleText") {
             return false;
         }
         return data[item] === undefined || data[item] === "";
@@ -166,6 +205,7 @@ const addArticle = async (click = true) => {
                 return true
             }
             message.success(`文章${props?.id ? "更新" : "发布"}成功`);
+            delectImageFn(editorRef.value.getElemsByType('image'))
             props?.id && emits("hiddenNewArticle", true);
             clearData();
         } else {
@@ -176,14 +216,21 @@ const addArticle = async (click = true) => {
     }
 };
 
-const beforeUpload = (file: FileItem) => {
-    fileList.value.push(file)
+const beforeUpload = (file: any) => {
     uploadImg[0] = file
     return false
+
 };
 const handleUpload = async () => {
     if (fileList.value.length == 0) {
         return false
+    }
+    const fileType = fileList?.value[0]?.type?.split('/')[0]
+    if (fileType !== 'image') {
+        fileList.value = []
+        message.error('只能上传图片文件')
+        return false
+
     }
     const formData = new FormData();
     formData.append("image", uploadImg[0], "image.png");
@@ -235,7 +282,7 @@ const copyImg = (e: any) => {
     // e.target.addEventListener('paste', getClipboardFiles)
 }
 const removeImag = async () => {
-    const res = await delImg(fileList?.value[0]?.name as string)
+    const res = await delImg([fileList?.value[0]?.name])
     if (res.status) {
         imageUrl.value = ''
         recommend.value = false
@@ -253,6 +300,7 @@ const getImageName = (url: string) => {
     const names = url.split('/')
     return names.at(-1)
 }
+
 onMounted(async () => {
     blogArticleTypeLists.value = await selectblogArticleTypeAll();
     if (props?.id) {
@@ -263,7 +311,6 @@ onMounted(async () => {
             articleType.value = articleData?.data.articleType;
             editorRef.value.setHtml(articleData?.data.articleContext);
             imageUrl.value = articleData?.data?.articleImg || "";
-            console.log(articleData?.data?.articleImg);
             fileList.value = articleData?.data?.articleImg ? [{ uid: '', url: imgHttp + imageUrl.value, file: '', name: getImageName(imageUrl.value) }] : []
             recommend.value = articleData?.data.recommend;
         }
@@ -289,5 +336,11 @@ const handleCancel = () => {
             margin: 5px 0;
         }
     }
+}
+
+.top-btns {
+    position: fixed;
+    top: 5px;
+    right: 20px;
 }
 </style>

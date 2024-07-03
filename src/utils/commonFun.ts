@@ -39,7 +39,11 @@ const routerObj = (obj: any) => {
   return obj;
 };
 // const router = useRouter();
-const addBlogBackstagePath = async (router: Router, path = "/blog") => {
+const addBlogBackstagePath = async (
+  router: Router,
+  path = "/blog",
+  grade = false,
+) => {
   const routerJson: any = await isSession();
   if (routerJson.status) {
     const routerPath = sessionStorage.getItem("routerPath");

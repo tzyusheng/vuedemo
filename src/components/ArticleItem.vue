@@ -103,10 +103,11 @@ const imgHttp: any = inject('$imgHttp')
       span {
         position: relative;
         margin-right: 10px;
-        padding: 3px 5px;
+        padding: 0 5px;
         background-color: rgb(42, 89, 167);
         border-radius: 3px;
         font-size: 12px;
+        line-height: 22px;
         color: #fff;
 
         &::after {
@@ -167,6 +168,7 @@ const imgHttp: any = inject('$imgHttp')
         color: white;
         font-size: 12px;
         border-radius: 5px;
+        cursor: pointer;
       }
     }
   }

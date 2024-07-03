@@ -12,7 +12,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 16.15.0
+      - name: Use Node.js 16.16.0
         uses: actions/setup-node@v2
         with:
           node-version: "16.x"
@@ -29,6 +29,6 @@ jobs:
         run: npm run build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        with:S
+        with:
           github_token: ${{ secrets.GITEE_TOKEN }}
           publish_dir: ./dist

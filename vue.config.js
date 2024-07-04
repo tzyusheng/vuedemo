@@ -12,6 +12,10 @@ module.exports = defineConfig({
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
+    overlay:{
+      warnings:false,
+      errors:false
+    }
   },
   transpileDependencies: true,
   pluginOptions: {
@@ -25,6 +29,7 @@ module.exports = defineConfig({
   outputDir: "dist",
   assetsDir: "static",
   indexPath: "index.html",
+  lintOnSave:false
   // configureWebpack:{
   //   devServer:{
   //     proxy:{

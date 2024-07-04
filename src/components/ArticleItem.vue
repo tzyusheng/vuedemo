@@ -127,7 +127,7 @@ const imgHttp: any = inject('$imgHttp')
       font-size: 14px;
       color: #00000073;
       // height: 90px;
-      letter-spacing: 0.2em;
+      // letter-spacing: 0.2em;
       line-height: 1.5em;
       display: -webkit-box;
       -webkit-box-orient: vertical;

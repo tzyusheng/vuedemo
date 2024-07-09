@@ -11,10 +11,6 @@ module.exports = defineConfig({
     },
     headers: {
       'Access-Control-Allow-Origin': '*',
-    },
-    overlay:{
-      warnings:false,
-      errors:false
     }
   },
   transpileDependencies: true,

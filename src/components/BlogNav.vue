@@ -46,7 +46,7 @@ const menuList = [
   { title: '技能笔记', iconName: 'biji', pathName: 'about', dataName: 'jnbj' },
   { title: '黑科技', iconName: 'keji', pathName: 'about', dataName: 'hkj' },
   { title: '生活', iconName: 'shenghuo', pathName: 'about', dataName: 'sh' },
-  // { title: '我的', iconName: 'me', pathName: 'bloginfo', queryState: true },
+  { title: '我的', iconName: 'me', pathName: 'bloginfo', queryState: true },
 ]
 const toClick = async (menuInfo: menuType) => {
   console.log(menuInfo.title);

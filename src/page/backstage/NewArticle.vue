@@ -29,8 +29,9 @@
         </div>
         <div @paste="copyImg" title="点击标题粘贴图片">
             文章封面图
-            <a-upload list-type="picture-card" :show-upload-list="true" @change="handleUpload" :before-upload="beforeUpload"
-                accept=".jpg,.png,.gif,.jpeg" v-model:file-list="fileList" @preview="handlePreview" @remove="removeImag">
+            <a-upload list-type="picture-card" :show-upload-list="true" @change="handleUpload"
+                :before-upload="beforeUpload" accept=".jpg,.png,.gif,.jpeg" v-model:file-list="fileList"
+                @preview="handlePreview" @remove="removeImag">
                 <!-- <img v-if="imageUrl" :src="imageUrl" style="width: 100%" /> -->
                 <div v-if="fileList.length == 0">
                     <div class="ant-upload-text">上传图片</div>
@@ -42,9 +43,10 @@
         </div>
     </div>
     <div style="border: 1px solid #ccc; margin-bottom: 20px;">
-        <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig" :mode="mode" />
-        <Editor :defaultConfig="editorConfig" style="height: calc(100vh - 400px) ;" :mode="mode" @onCreated="handleCreated"
-            :readOnly="true" />
+        <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
+            :mode="mode" />
+        <Editor :defaultConfig="editorConfig" style="height: calc(100vh - 400px) ;" :mode="mode"
+            @onCreated="handleCreated" :readOnly="true" />
     </div>
     <div :class="{ 'top-btns': screen }">
         <a-button type="primary" @click="addArticle">发布</a-button>
@@ -218,14 +220,17 @@ const addArticle = async (click = true) => {
 
 const beforeUpload = (file: any) => {
     uploadImg[0] = file
+    fileList.value = [file]
     return false
 
 };
 const handleUpload = async () => {
-    if (fileList.value.length == 0) {
+    if (fileList.value.length === 0) {
         return false
     }
     const fileType = fileList?.value[0]?.type?.split('/')[0]
+    console.log(fileType);
+
     if (fileType !== 'image') {
         fileList.value = []
         message.error('只能上传图片文件')
@@ -275,7 +280,7 @@ const getClipboardFiles = (event: any) => {
 };
 
 const copyImg = (e: any) => {
-    if (fileList.value.length > 0) {
+    if (fileList.value && fileList.value.length > 0) {
         return false
     }
     getClipboardFiles(e);

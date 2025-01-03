@@ -1,5 +1,7 @@
 name: vue3 Blog
-on: [push]
+on:
+  push:
+    branches: [main]
 permissions:
   contents: write
 jobs:
@@ -15,7 +17,7 @@ jobs:
           node -v
           npm -v
           npm install yarn -g
-          yarn install
+          # yarn install
           yarn run build
 
       - name: Deploy 🚀

@@ -10,7 +10,7 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Install and Build 🔧 # 执行的指令
+      - name: 下载依赖以及打包 🔧 # 执行的指令
         run: |
           node -v
           npm -v

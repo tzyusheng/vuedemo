@@ -43,8 +43,9 @@ jobs:
         run: |
           node -v
           npm -v
-          npm install
-          npm run build
+          npm install yarn -g
+          yarn install
+          yarn run build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4

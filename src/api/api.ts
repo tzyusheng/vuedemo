@@ -74,8 +74,8 @@ export const upDataState = (id: number, State: boolean) => {
 };
 
 export const delUser = (id: number) => {
-  const requestText = "/delUser";
-  return http.delete(requestText, id);
+  const requestText = `/delUser/${id}`;
+  return http.delete(requestText);
 };
 
 export const addUser = (

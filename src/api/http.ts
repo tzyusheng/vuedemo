@@ -20,7 +20,7 @@ const http = {
     if (params) config.data = params;
     return request(config);
   },
-  delete(url: string, params: any) {
+  delete(url: string, params?: any) {
     const config: any = {
       method: "delete",
       url,

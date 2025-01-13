@@ -63,9 +63,12 @@ jobs:
         with:
           node-version: "14" # 选择需要的 Node.js 版本
       - name: package未修改
-        run: npm ci # 使用 npm ci 代替 npm install，提高缓存依赖效率
-      - name: Run build
-        run: npm run build
+        run: |
+          node -v
+          npm -v
+          npm install yarn -g
+          yarn install
+          yarn run build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
